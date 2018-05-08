@@ -1,0 +1,15 @@
+{
+  "name": "MMM-MP3Player",
+  "version": "1.0.0",
+  "description": "A MagicMirror module for playing music from USB pen drive as soon as it is inserted.",
+  "main": "MMM-MP3Player.js",
+  "author": "Asim Siddiqui",
+  "license": "MIT",
+  "dependencies": {
+    "usb": "latest",
+    "node-id3": "latest",
+	"drivelist": "latest",
+	"path": "latest",
+	"fs": "latest"
+  } 
+}
