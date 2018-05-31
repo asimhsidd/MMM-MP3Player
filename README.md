@@ -16,7 +16,7 @@ The module is built with error handling procedures. Beside the core modules, thi
 
 * Navigate to the modules directory via the follow command: `cd MagicMirror/modules`
 * Clone the module from github: `git clone https://github.com/asimhsidd/MMM-MP3Player.git`
-* Navigate to the MMM-TracCar directory: `cd MMM-MP3Player`
+* Navigate to the MMM-MP3Player directory: `cd MMM-MP3Player`
 * Install the dependencies: `npm install`
 * Add the following configuration to the modules array in the `config/config.js` file:
 ```js
@@ -28,7 +28,7 @@ The module is built with error handling procedures. Beside the core modules, thi
     ]
 ```
 
-## Configuration options for MMM-TracCar
+## Configuration options for MMM-MP4Player
 
 | Option    	| Description
 |---------------|-----------
