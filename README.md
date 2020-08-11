@@ -27,11 +27,11 @@ Beside the core modules, this module uses one dependency:
 
 ## Installation
 
-* `cd MagicMirror/modules` // change directory to the modules folder
+* `cd MagicMirror/modules` // change present working directory to the modules folder
 * `git clone https://github.com/x3mEr/MMM-MP3Player.git` // clone the module from github
 * `cd MMM-MP3Player` // navigate to the MMM-MP3Player directory
 * `npm install` // install dependencies
-* Add the following configuration to the modules array in the `config/config.js` file:
+* Add the following configuration to the modules array in the `MagicMirror/config/config.js` file:
 ```js
     modules: [
         {
@@ -54,7 +54,8 @@ Beside the core modules, this module uses one dependency:
 | `position`	| *Required* The position of the screencast window. <br>**Options:** `['bottomRight', 'bottomCenter', 'bottomLeft', 'center',  'topRight', 'topCenter', 'topLeft']` <br>**Type:** `string` <br>**Note:** This module config actual sets the location, not the magic mirror position config. |
 | `musicPath`	| The path of the folder with .mp3 files. <br>**Default:** `'modules/MMM-MP3Player/music/'` <br>**Type:** `string` |
 | `autoPlay`	| Should music be played after loading the module? <br>**Default:** `true` <br>**Type:** `boolean` |
-| `random`	| Should music be shuffled? <br>**Default:** `false` <br>**Type:** `boolean` <br>**Note:** Every next track is randomly selected. So after the playlist ends the order of tracks will be another. |
+| `random`	| Should music be shuffled? <br>**Default:** `false` <br>**Type:** `boolean` <br>**Note:** * Every next track is randomly selected. So after the playlist ends the order of tracks will be another.
+* In case of `random: true`, previous track is not a track, played previously, it's a previous file in `musicPath` folder. |
 
 ## Voice control
 
@@ -66,5 +67,3 @@ this.sendNotification('STOP_MUSIC', 'some_info');
 this.sendNotification('NEXT_TRACK', 'some_info');
 this.sendNotification('PREVIOUS_TRACK', 'some_info');
 ```
-
-* Note: in case of `random: true`, previous track is not a track, played previously, it's a previous file in `musicPath` folder.
