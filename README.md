@@ -1,8 +1,8 @@
-#! IN TESTING !
+# ! IN TESTING !
 
 # MMM-MP3Player
 
-##About
+## About
 A [MagicMirror²](https://github.com/MichMich/MagicMirror/) module for playing music from folder at start up.
 This is the version of the [MMM-MP3Player module](https://github.com/asimhsidd/MMM-MP3Player) remade to my needs.
 A music player object is built inside the module, no iframe is used. The best position is bottom left, although it depends upon the user.
@@ -15,7 +15,7 @@ As soon as the module is loaded, the music starts playing!
 * voice control through notifications,
 * module only supports rock music.
 
-##Dependencies:
+## Dependencies:
 Beside the core modules, this module uses one dependency:
 
 | Module     | URL    |
