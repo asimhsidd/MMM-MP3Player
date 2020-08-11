@@ -49,15 +49,15 @@ Beside the core modules, this module uses one dependency:
 
 ## Configuration options for MMM-MP3Player
 
-| Option		| Description
+| Option		| Description |
 | -----------|-------------------------------------------|
-| `position`	| *Required* The position of the screencast window. <br>**Options:** `['bottomRight', 'bottomCenter', 'bottomLeft', 'center',  'topRight', 'topCenter', 'topLeft']` <br>**Type:** `string` <br>**Note:** This module config actual sets the location, not the magic mirror position config.
+| `position`	| *Required* The position of the screencast window. <br>**Options:** `['bottomRight', 'bottomCenter', 'bottomLeft', 'center',  'topRight', 'topCenter', 'topLeft']` <br>**Type:** `string` <br>**Note:** This module config actual sets the location, not the magic mirror position config. |
 | -----------|-------------------------------------------|
-| `musicPath`	| The path of the folder with .mp3 files. <br>**Default:** `'modules/MMM-MP3Player/music/'` <br>**Type:** `string`
+| `musicPath`	| The path of the folder with .mp3 files. <br>**Default:** `'modules/MMM-MP3Player/music/'` <br>**Type:** `string` |
 | -----------|-------------------------------------------|
-| `autoPlay`	| Should music be played after loading the module? <br>**Default:** `true` <br>**Type:** `boolean`
+| `autoPlay`	| Should music be played after loading the module? <br>**Default:** `true` <br>**Type:** `boolean` |
 | -----------|-------------------------------------------|
-| `random`	| Should music be shuffled? <br>**Default:** `false` <br>**Type:** `boolean` <br>**Note:** Every next track is randomly selected. So after the playlist ends the order of tracks will be another.
+| `random`	| Should music be shuffled? <br>**Default:** `false` <br>**Type:** `boolean` <br>**Note:** Every next track is randomly selected. So after the playlist ends the order of tracks will be another. |
 
 ## Voice control
 
