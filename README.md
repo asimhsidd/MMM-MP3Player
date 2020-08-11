@@ -8,6 +8,9 @@ This is the version of the [MMM-MP3Player module](https://github.com/asimhsidd/M
 A music player object is built inside the module, no iframe is used. The best position is bottom left, although it depends upon the user.
 As soon as the module is loaded, the music starts playing!
 
+![picture](Capture1.JPG) <br>
+![picture](Capture2.JPG)
+
 * module only supports .mp3 music format,
 * reads ID3 metadata (artist and song title),
 * autoplay capability,
@@ -21,9 +24,6 @@ Beside the core modules, this module uses one dependency:
 | Module     | URL    |
 | -----------|-------------------------------------------|
 | node-id3 | https://www.npmjs.com/package/node-id3 |
-
-![picture](Capture1.JPG) <br>
-![picture](Capture2.JPG)
 
 ## Installation
 
