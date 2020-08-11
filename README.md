@@ -35,9 +35,10 @@ Beside the core modules, this module uses one dependency:
 ```js
     modules: [
         {
-			module: 'MMM-MP3Player',
-			position: 'top_left',
+			module: "MMM-MP3Player",
+			position: "top_left", // not applicable for this module, position should be set in config section
 			config: {
+				position: "bottomLeft",
 				musicPath: "modules/MMM-MP3Player/music/", 
 				autoPlay: true,
 				random: false,
@@ -47,7 +48,7 @@ Beside the core modules, this module uses one dependency:
 ```
 * Finally, add some music to the `musicPath` folder and enjoy!
 
-## Configuration options for MMM-MP3Player
+## Configuration
 
 | Option		| Description |
 | -----------|-------------------------------------------|
