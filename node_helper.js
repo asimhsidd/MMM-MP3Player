@@ -1,81 +1,42 @@
-/* Magic Mirror
- * Node Helper: MMM-MP3Player
- *
+/* Magic Mirror Node Helper: MMM-MP3Player
  * By asimhsidd
+ *
+ * 12-Aug-2020
+ * Remade by Pavel Smelov.
  * MIT Licensed.
  */
 
 const NodeHelper = require("node_helper");
-const USB = require('usb');
 const ID3 = require('node-id3');
-const Drives = require('drivelist');
 const path = require('path')
 const fs = require('fs');
 
-var drive_path,drive_description = "";
+var drive_path = "";
 var music_files_list = [];
-var loaded = false;
 
 module.exports = NodeHelper.create({
 	socketNotificationReceived: function(notification, payload) {
 		var self = this;
 		switch(notification) {
 			case "INITIATEDEVICES":
-				drive_path,drive_description = "";
+				drive_path = "";
 				music_files_list = [];
 				var self = this;
-				Drives.list((error, drives) => {
-					drives.forEach((drive) => {
-						if (!drive.isSystem && drive.isUSB){
-							drive_description = drive.description;
-							drive_path = path.normalize(drive.mountpoints[0].path);
-							self.searchMP3(drive_path);
-							if(music_files_list.length){
-								self.sendSocketNotification("Music_Files",music_files_list);
-							}
-						}
-					});
-				});
-				USB.on('attach', function(device) {
-					if (self.loaded == true){ return; }
-					setTimeout(function(){ // In order for the OS to allocate a drive address to the new usb drive
-						Drives.list((error, drives) => {
-							drives.forEach((drive) => {
-								if (!drive.isSystem && drive.isUSB){
-									drive_path = path.normalize(drive.mountpoints[0].path);
-									self.searchMP3(drive_path);
-									if(music_files_list.length){
-										self.sendSocketNotification("Music_Files",music_files_list);
-										self.loaded = true;
-									}
-								}
-							});
-						});						
-					},2000);
-				});
-				USB.on('detach', function(device) {
-					if (self.loaded == false){ return; }
-					setTimeout(function(){ // In order to check if the unplugged usb device is our usb
-						Drives.list((error, drives) => {
-							drives.forEach((drive) => {
-								if (drive_description = drive.description){
-									return; // confirmed: the device is still attached
-								}
-							});
-							self.sendSocketNotification("Error","USB Detached");
-							self.loaded = false;
-						});						
-					},2000);
-				});					
+				drive_path = payload.musicPath;
+				self.searchMP3(drive_path);
+				if(music_files_list.length){
+					self.sendSocketNotification("Music_Files",music_files_list);
+				}
 				break;
 			case "LOADFILE":
 				if (fs.existsSync(payload)){
 					fs.readFile(payload, function(err, data) {
 						tags = ID3.read(data);
+						if (typeof tags.artist == "undefined" && typeof tags.title == "undefined"){ tags.title = path.basename(payload); }
 						self.sendSocketNotification("Music_File",[data,[tags.artist,tags.title]]);
 					});
 				}else{
-					self.sendSocketNotification("Error","File Dont Exist");
+					self.sendSocketNotification("Error","File Does Not Exist");
 				}
 				break;
 		}

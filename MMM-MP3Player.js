@@ -1,11 +1,19 @@
 /* Magic Mirror Module: MMM-MP3Player
  * v1.0.1 - May 2018
- *
  * By Asim Siddiqui <asimhsidd@gmail.com>
+ *
+ * 12-Aug-2020
+ * Remade by Pavel Smelov.
  * MIT License
  */
-
+var arrPlayed = [];
 Module.register("MMM-MP3Player",{
+	defaults: {
+		musicPath: "modules/MMM-MP3Player/music/", 
+		//extensions: ["mp3", "wma", "acc", "ogg"],
+		autoPlay: true,
+		random: false,
+	},
 	getStyles: function() {
 		return ["style.css"];
 	},
@@ -20,10 +28,14 @@ Module.register("MMM-MP3Player",{
 		self.info.className = "info";
 		self.artist = document.createElement("span");
 		self.artist.className = "artist";
-		self.artist.innerHTML = "MMM-USBPlayer";
+		self.artist.innerHTML = "MMM-MP3Player";
 		self.song = document.createElement("span");
 		self.song.className = "name";
-		self.song.innerHTML = "Insert USB Drive";
+		if (self.config.autoPlay){ self.song.innerHTML = "AutoPlay Enabled"; }
+		else { self.song.innerHTML = "AutoPlay Disabled"; }
+		if (self.config.random){ self.song.innerHTML = self.song.innerHTML + "<br />Random Enabled"; }
+		else { self.song.innerHTML = self.song.innerHTML + "<br />Random Disabled"; }
+		//self.song.innerHTML = "Searching mp3...";
 		progress = document.createElement("div");
 		progress.className = "progress-bar";
 		self.bar = document.createElement("div");
@@ -48,16 +60,23 @@ Module.register("MMM-MP3Player",{
 		var self = this;
 		switch(notification){
 			case "Error": // Universal error handler
-				self.USBAttached = false;
-				console.log("USB Detached!");
+				self.musicFound = false;
+				console.log("Error! Music may not be found.");
 				break;
 			case "Music_Files": // this populates the songs list (array)
 				self.songs = payload;
 				self.current = 0;
-				self.USBAttached = true;
-				console.log("USB Attached!");
+				self.musicFound = true;
 				console.log("Music Found");
-				self.sendSocketNotification("LOADFILE", self.songs[self.current]);
+				arrPlayed = Array(self.songs.length).fill(false);
+				if (self.config.autoPlay){
+					if (self.config.random){
+						ind = Math.floor(Math.random() * self.songs.length); //(self.current + 1) % self.songs.length;
+						arrPlayed[ind] = true;
+						self.current = ind;
+					}
+					self.sendSocketNotification("LOADFILE", self.songs[self.current]);
+				}
 				break;
 			case "Music_File": // this is called everytime a song is sent from the server
 				// create url of the raw data received and play it
@@ -94,17 +113,75 @@ Module.register("MMM-MP3Player",{
 				}
 				// next track & loop
 				audioElement.onended = function() {
-					if(!self.USBAttached){
+					if(!self.musicFound){
 						self.album_art.classList.toggle('active');
 						return;
 					}
-					if(self.current==(self.songs.length-1)){ // this assures the loop
-						self.current = -1;
+					if (self.config.random){
+						if (!arrPlayed.includes(false)){
+							arrPlayed.fill(false);
+						}
+						do {
+							ind = Math.floor(Math.random() * self.songs.length); //(self.current + 1) % self.songs.length;
+						} while (arrPlayed[ind] || ind == self.current); //ind == self.current: not to play one song twice - in the end of list and in the beginning of newly created list)
+						arrPlayed[ind] = true;
+						self.current = ind;
 					}
-					self.current++;
+					else {
+						if(self.current==(self.songs.length-1)){ // this assures the loop
+							self.current = -1;
+						}
+							self.current++;
+					}
 					self.sendSocketNotification("LOADFILE", self.songs[self.current]);
 				};				
 				console.log("Music Played");
+				break;
+		}
+	}
+	notificationReceived: function(notification, payload){
+		var self = this;
+		switch(notification){
+			case "PLAY_MUSIC":
+				if (audioElement.paused){
+					audioElement.play();
+				}
+				else {
+					self.sendSocketNotification("LOADFILE", self.songs[self.current]);
+				}
+				break;
+			case "STOP_MUSIC":
+				audioElement.pause();
+				break;
+			case "NEXT_TRACK":
+				if(!self.musicFound){
+					self.album_art.classList.toggle('active');
+					return;
+				}
+				if (self.config.random){
+					if (!arrPlayed.includes(false)){
+						arrPlayed.fill(false);
+					}
+					do {
+						ind = Math.floor(Math.random() * self.songs.length); //(self.current + 1) % self.songs.length;
+					} while (arrPlayed[ind] || ind == self.current); //ind == self.current: not to play one song twice - in the end of list and in the beginning of newly created list)
+					arrPlayed[ind] = true;
+					self.current = ind;
+				}
+				else {
+					if(self.current==(self.songs.length-1)){ // this assures the loop
+						self.current = -1;
+					}
+						self.current++;
+				}
+				self.sendSocketNotification("LOADFILE", self.songs[self.current]);
+				break;
+			case "PREVIOUS_TRACK":
+				if(self.current==0){ // this assures the loop
+						self.current = (self.songs.length);
+					}
+				self.current--;
+				self.sendSocketNotification("LOADFILE", self.songs[self.current]);
 				break;
 		}
 	}	
