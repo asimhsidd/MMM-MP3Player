@@ -58,7 +58,7 @@ Beside the core modules, this module uses one dependency:
 
 ## Voice control
 
-The playback can be controled from another module (i.e. [voicecontrol](https://github.com/alexyak/voicecontrol) with notifications.
+The playback can be controled from another module (i.e. [voicecontrol](https://github.com/alexyak/voicecontrol)) with notifications.
 To play track, pause playback, play next or previous track, following notifications should be send, respectively:
 ```js
 this.sendNotification('PLAY_MUSIC', 'some_info');
