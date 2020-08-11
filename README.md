@@ -54,12 +54,12 @@ Beside the core modules, this module uses one dependency:
 | `position`	| *Required* The position of the screencast window. <br>**Options:** `['bottomRight', 'bottomCenter', 'bottomLeft', 'center',  'topRight', 'topCenter', 'topLeft']` <br>**Type:** `string` <br>**Note:** This module config actual sets the location, not the magic mirror position config. |
 | `musicPath`	| The path of the folder with .mp3 files. <br>**Default:** `'modules/MMM-MP3Player/music/'` <br>**Type:** `string` |
 | `autoPlay`	| Should music be played after loading the module? <br>**Default:** `true` <br>**Type:** `boolean` |
-| `random`	| Should music be shuffled? <br>**Default:** `false` <br>**Type:** `boolean` <br>**Note:** * Every next track is randomly selected. So after the playlist ends the order of tracks will be another.
-* In case of `random: true`, previous track is not a track, played previously, it's a previous file in `musicPath` folder. |
+| `random`	| Should music be shuffled? <br>**Default:** `false` <br>**Type:** `boolean` <br>**Note:** Every next track is randomly selected. So after the playlist ends the order of tracks will be another. |
+* In case of `random: true`, previous track is not a track, played previously, it's a previous file in `musicPath` folder.
 
 ## Voice control
 
-The playback can be controled from another module (i.e. [voicecontrol](https://github.com/alexyak/voicecontrol)) with notifications.
+The playback can be controlled from another module (i.e. [voicecontrol](https://github.com/alexyak/voicecontrol)) with notifications.
 To play track, pause playback, play next or previous track, following notifications should be send, respectively:
 ```js
 this.sendNotification('PLAY_MUSIC', 'some_info');
