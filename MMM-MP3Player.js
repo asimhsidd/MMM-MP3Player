@@ -131,14 +131,15 @@ Module.register("MMM-MP3Player",{
 						if(self.current==(self.songs.length-1)){ // this assures the loop
 							self.current = -1;
 						}
-							self.current++;
+						self.current++;
 					}
 					self.sendSocketNotification("LOADFILE", self.songs[self.current]);
 				};				
 				console.log("Music Played");
 				break;
 		}
-	}
+	},
+
 	notificationReceived: function(notification, payload){
 		var self = this;
 		switch(notification){
@@ -172,7 +173,7 @@ Module.register("MMM-MP3Player",{
 					if(self.current==(self.songs.length-1)){ // this assures the loop
 						self.current = -1;
 					}
-						self.current++;
+					self.current++;
 				}
 				self.sendSocketNotification("LOADFILE", self.songs[self.current]);
 				break;
@@ -184,5 +185,5 @@ Module.register("MMM-MP3Player",{
 				self.sendSocketNotification("LOADFILE", self.songs[self.current]);
 				break;
 		}
-	}	
+	}
 });
