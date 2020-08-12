@@ -5,7 +5,6 @@
 ## About
 A [MagicMirror²](https://github.com/MichMich/MagicMirror/) module for playing music from folder at start up.
 This is the version of the [MMM-MP3Player module](https://github.com/asimhsidd/MMM-MP3Player) remade to my needs.
-A music player object is built inside the module, no iframe is used. The best position is bottom left, although it depends upon the user.
 As soon as the module is loaded, the music starts playing!
 
 ![picture](Capture1.JPG) <br>
@@ -36,9 +35,8 @@ Beside the core modules, this module uses one dependency:
     modules: [
         {
 			module: "MMM-MP3Player",
-			position: "top_left", // not applicable for this module, position should be set in config section
+			position: "top_left",
 			config: {
-				position: "bottomLeft",
 				musicPath: "modules/MMM-MP3Player/music/", 
 				autoPlay: true,
 				random: false,
@@ -52,7 +50,6 @@ Beside the core modules, this module uses one dependency:
 
 | Option		| Description |
 | -----------|-------------------------------------------|
-| `position`	| *Required* The position of the screencast window. <br>**Options:** `['bottomRight', 'bottomCenter', 'bottomLeft', 'center',  'topRight', 'topCenter', 'topLeft']` <br>**Type:** `string` <br>**Note:** This module config actual sets the location, not the magic mirror position config. |
 | `musicPath`	| The path of the folder with .mp3 files. <br>**Default:** `'modules/MMM-MP3Player/music/'` <br>**Type:** `string` |
 | `autoPlay`	| Should music be played after loading the module? <br>**Default:** `true` <br>**Type:** `boolean` |
 | `random`	| Should music be shuffled? <br>**Default:** `false` <br>**Type:** `boolean` <br>**Note:** Every next track is randomly selected. So after the playlist ends the order of tracks will be another. |
