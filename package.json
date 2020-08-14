@@ -1,10 +1,10 @@
 {
   "name": "MMM-MP3Player",
   "version": "1.0.0",
-  "description": "A MagicMirror module for playing music from folder at start up.",
+  "description": "A MagicMirror module for playing music from folder.",
   "main": "MMM-MP3Player.js",
   "author": "Asim Siddiqui, Pavel Smelov",
-  "license": "MIT",
+  "license": "GPLv3",
   "dependencies": {
     "node-id3": "latest",
 	"path": "latest",
