@@ -1,9 +1,8 @@
 # MMM-MP3Player
 
 ## About
-A [MagicMirror²](https://github.com/MichMich/MagicMirror/) module for playing music from folder at start up.
+A [MagicMirror²](https://github.com/MichMich/MagicMirror/) module for playing music from folder. <br>
 This is the version of the [MMM-MP3Player module](https://github.com/asimhsidd/MMM-MP3Player) remade to my needs.
-As soon as the module is loaded, the music starts playing.
 
 ![picture](Capture1.JPG) <br>
 ![picture](Capture2.JPG)
@@ -42,7 +41,7 @@ Beside the core modules, this module uses one dependency:
         }
     ]
 ```
-*Do not forget extra parameters for other modules (i.e. `classes: "default everyone",` for [face recognition module](https://github.com/nischi/MMM-Face-Reco-DNN))*
+*Do not forget to add extra parameters for other modules (i.e. `classes: "default everyone",` for [face recognition module](https://github.com/nischi/MMM-Face-Reco-DNN))*
 * Finally, add some music to the `musicPath` folder and enjoy!
 
 
