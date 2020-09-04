@@ -10,9 +10,9 @@ var arrPlayed = [];
 Module.register("MMM-MP3Player",{
 	defaults: {
 		musicPath: "modules/MMM-MP3Player/music/", 
-		//extensions: ["mp3", "wma", "acc", "ogg"],
 		autoPlay: true,
 		random: false,
+		loopList: true,
 	},
 	getStyles: function() {
 		return ["style.css"];
@@ -83,7 +83,15 @@ Module.register("MMM-MP3Player",{
 				audioElement=document.getElementById(self.identifier+"_player");
 				var binaryData = [];
 				binaryData.push(payload[0]);
-				var url = window.URL.createObjectURL(new Blob(binaryData, {type: "audio/mpeg"}));
+				if ((payload[2] = 'mp3') || (payload[2] = 'flac')){
+					var url = window.URL.createObjectURL(new Blob(binaryData, {type: "audio/mpeg"}));
+				}
+				/*else if (payload[2] = 'ogg'){
+					var url = window.URL.createObjectURL(new Blob(binaryData, {type: "audio/ogg"}));
+				}*/
+				else if (payload[2] = 'wav'){
+					var url = window.URL.createObjectURL(new Blob(binaryData, {type: "audio/wav"}));
+				}
 				audioElement.load();
 				audioElement.setAttribute('src', url);
 				audioElement.volume = 1;
@@ -118,23 +126,35 @@ Module.register("MMM-MP3Player",{
 						return;
 					}
 					if (self.config.random){
-						if (!arrPlayed.includes(false)){
+						if (!arrPlayed.includes(false)){ // if all files are played
+							if (!self.config.loopList) {
+								self.artist.innerHTML = "Playlist ended";
+								self.song.innerHTML = "";
+								console.log("Playlist ended");
+								return;
+							}
 							arrPlayed.fill(false);
 						}
 						do {
 							ind = Math.floor(Math.random() * self.songs.length); //(self.current + 1) % self.songs.length;
-						} while (arrPlayed[ind] || ind == self.current); //ind == self.current: not to play one song twice - in the end of list and in the beginning of newly created list)
+						} while ( (arrPlayed[ind]) || ((ind == self.current) && (self.songs.length>1)) ); //ind == self.current: not to play one song twice - in the end of list and in the beginning of newly created list)
 						arrPlayed[ind] = true;
 						self.current = ind;
 					}
 					else {
-						if(self.current==(self.songs.length-1)){ // this assures the loop
+						if(self.current==(self.songs.length-1)){ // if all files are played
+							if (!self.config.loopList){
+								self.artist.innerHTML = "Playlist ended";
+								self.song.innerHTML = "";
+								console.log("Playlist ended");
+								return;
+							}
 							self.current = -1;
 						}
 						self.current++;
 					}
 					self.sendSocketNotification("LOADFILE", self.songs[self.current]);
-				};				
+				};
 				console.log("Music Played");
 				break;
 		}
@@ -164,8 +184,8 @@ Module.register("MMM-MP3Player",{
 						arrPlayed.fill(false);
 					}
 					do {
-						ind = Math.floor(Math.random() * self.songs.length); //(self.current + 1) % self.songs.length;
-					} while (arrPlayed[ind] || ind == self.current); //ind == self.current: not to play one song twice - in the end of list and in the beginning of newly created list)
+						ind = Math.floor(Math.random() * self.songs.length); // (self.current + 1) % self.songs.length;
+					} while (arrPlayed[ind] || ind == self.current); // ind == self.current: not to play one song twice - in the end of list and in the beginning of newly created list)
 					arrPlayed[ind] = true;
 					self.current = ind;
 				}

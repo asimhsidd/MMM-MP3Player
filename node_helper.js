@@ -29,11 +29,18 @@ module.exports = NodeHelper.create({
 				}
 				break;
 			case "LOADFILE":
+				console.log('trying to play next track');
 				if (fs.existsSync(payload)){
 					fs.readFile(payload, function(err, data) {
-						tags = ID3.read(data);
-						if (typeof tags.artist == "undefined" && typeof tags.title == "undefined"){ tags.title = path.basename(payload); }
-						self.sendSocketNotification("Music_File",[data,[tags.artist,tags.title]]);
+						extension = path.basename(payload).split('.').pop();
+						if (extension == "mp3") {
+							tags = ID3.read(data);
+							if (typeof tags.artist == "undefined" && typeof tags.title == "undefined"){ tags.title = path.basename(payload); }
+						}
+						else {
+							tags = {artist:"", title:path.basename(payload)};
+						}
+						self.sendSocketNotification("Music_File",[data,[tags.artist,tags.title], extension]);
 					});
 				}else{
 					self.sendSocketNotification("Error","File Does Not Exist");
@@ -43,7 +50,10 @@ module.exports = NodeHelper.create({
 	},
 	searchMP3(startPath){ // thanks to Lucio M. Tato at https://stackoverflow.com/questions/25460574/find-files-by-extension-html-under-a-folder-in-nodejs
 		var self = this;
-		var filter = RegExp(".mp3");
+		var filter_mp3 = RegExp('.mp3'); // var filter = /.mp3/;
+		var filter_flac = RegExp('.flac');
+		//var filter_ogg = RegExp('.ogg');
+		var filter_wav = RegExp('.wav');
 		if (!fs.existsSync(startPath)){
 			console.log("no dir ",startPath);
 			return;
@@ -54,7 +64,7 @@ module.exports = NodeHelper.create({
 			var stat = fs.lstatSync(filename);
 			if (stat.isDirectory()){
 				self.searchMP3(filename); //recurse
-			}else if (filter.test(filename)){
+			}else if ( (filter_mp3.test(filename)) || (filter_flac.test(filename)) /*|| (filter_ogg.test(filename))*/ || (filter_wav.test(filename)) ){
 				music_files_list.push(filename.replace(/\/\/+/g, '/')); // to avoid double slashes (https://stackoverflow.com/questions/23584117/replace-multiple-slashes-in-text-with-single-slash-with-javascript/23584219)
 			}
 		}
