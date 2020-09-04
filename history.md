@@ -1,4 +1,4 @@
-**2020.06.15**
+**2020.09.04**
 
 - add: .flac and .wav file formats support;
 - add: `loopList` option;
@@ -8,4 +8,4 @@
 
 **2020.08.12**
 
-- module created.
+- module is created.
