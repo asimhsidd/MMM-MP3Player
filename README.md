@@ -12,7 +12,7 @@ This is the version of the [MMM-MP3Player module](https://github.com/asimhsidd/M
 * autoplay capability;
 * random order capability;
 * current settings of 'autoPlay' and 'random' options are displayed while loading the module;
-* control through notifications (play, stop, nex track, prev track);
+* control through notifications (play, stop, next track, prev track);
 * module only supports rock music.
 
 ## Dependencies:
@@ -46,6 +46,11 @@ Beside the core modules, this module uses one dependency:
 *Do not forget to add extra parameters for other modules (i.e. `classes: "default everyone",` for [face recognition module](https://github.com/nischi/MMM-Face-Reco-DNN))*
 * Finally, add some cool music to the `musicPath` folder and enjoy!
 
+## Update
+* `cd MagicMirror/modules/MMM-MP3Player` // change present working directory to the modules folder
+* if you have done local edits, backup the files you have edited and run
+`git reset --hard`
+* `git pull` // to pull the changes from the repository
 
 ## Configuration
 
