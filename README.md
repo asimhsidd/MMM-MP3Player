@@ -15,7 +15,7 @@ This is the version of the [MMM-MP3Player module](https://github.com/asimhsidd/M
 * control through notifications (play, stop, next track, prev track);
 * module only supports rock music.
 
-## Dependencies:
+## Dependencies
 Beside the core modules, this module uses one dependency:
 
 | Module     | URL    |
