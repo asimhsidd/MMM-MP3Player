@@ -1,10 +1,9 @@
 /* Magic Mirror Module: MMM-MP3Player
- * v1.0.1 - May 2018
  * By Asim Siddiqui <asimhsidd@gmail.com>
  *
- * 12-Aug-2020
  * Remade by Pavel Smelov.
- * MIT License
+ * Version 1.1.0 - 2020.09.04
+ * GPLv3 License
  */
 var arrPlayed = [];
 Module.register("MMM-MP3Player",{

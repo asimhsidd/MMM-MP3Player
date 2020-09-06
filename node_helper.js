@@ -1,9 +1,9 @@
 /* Magic Mirror Node Helper: MMM-MP3Player
  * By asimhsidd
  *
- * 12-Aug-2020
  * Remade by Pavel Smelov.
- * MIT Licensed.
+ * Version 1.1.0 - 2020.09.04
+ * GPLv3 License
  */
 
 const NodeHelper = require("node_helper");
