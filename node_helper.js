@@ -11,7 +11,6 @@ const ID3 = require('node-id3');
 const path = require('path')
 const fs = require('fs');
 
-var drive_path = "";
 var music_files_list = [];
 
 module.exports = NodeHelper.create({
@@ -19,17 +18,19 @@ module.exports = NodeHelper.create({
 		var self = this;
 		switch(notification) {
 			case "INITIATEDEVICES":
-				drive_path = "";
 				music_files_list = [];
 				var self = this;
-				drive_path = payload.musicPath;
-				self.searchMP3(drive_path);
+				self.searchMP3(payload.musicPath);
 				if(music_files_list.length){
+					console.log("[MMM-MP3Player] Found ", music_files_list.length, "track(s)");
 					self.sendSocketNotification("Music_Files",music_files_list);
+				}
+				else {
+					console.log("[MMM-MP3Player] Music may not be found");
 				}
 				break;
 			case "LOADFILE":
-				console.log('trying to play next track');
+				//console.log('[MMM-MP3Player] trying to play next track');
 				if (fs.existsSync(payload)){
 					fs.readFile(payload, function(err, data) {
 						extension = path.basename(payload).split('.').pop();
@@ -42,8 +43,9 @@ module.exports = NodeHelper.create({
 						}
 						self.sendSocketNotification("Music_File",[data,[tags.artist,tags.title], extension]);
 					});
-				}else{
-					self.sendSocketNotification("Error","File Does Not Exist");
+				}
+				else {
+					self.sendSocketNotification("Error","File can not be opened");
 				}
 				break;
 		}
@@ -55,7 +57,7 @@ module.exports = NodeHelper.create({
 		//var filter_ogg = RegExp('.ogg');
 		var filter_wav = RegExp('.wav');
 		if (!fs.existsSync(startPath)){
-			console.log("no dir ",startPath);
+			console.log("[MMM-MP3Player] no dir ",startPath);
 			return;
 		}
 		var files=fs.readdirSync(startPath);

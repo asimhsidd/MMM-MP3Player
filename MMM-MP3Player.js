@@ -60,13 +60,13 @@ Module.register("MMM-MP3Player",{
 		switch(notification){
 			case "Error": // Universal error handler
 				self.musicFound = false;
-				console.log("Error! Music may not be found.");
+				console.log("[MMM-MP3Player] Error! ", payload);
 				break;
 			case "Music_Files": // this populates the songs list (array)
 				self.songs = payload;
 				self.current = 0;
 				self.musicFound = true;
-				console.log("Music Found");
+				console.log("[MMM-MP3Player] Music Found");
 				arrPlayed = Array(self.songs.length).fill(false);
 				if (self.config.autoPlay){
 					if (self.config.random){
@@ -129,7 +129,7 @@ Module.register("MMM-MP3Player",{
 							if (!self.config.loopList) {
 								self.artist.innerHTML = "Playlist ended";
 								self.song.innerHTML = "";
-								console.log("Playlist ended");
+								console.log("[MMM-MP3Player] Playlist ended");
 								return;
 							}
 							arrPlayed.fill(false);
@@ -145,7 +145,7 @@ Module.register("MMM-MP3Player",{
 							if (!self.config.loopList){
 								self.artist.innerHTML = "Playlist ended";
 								self.song.innerHTML = "";
-								console.log("Playlist ended");
+								console.log("[MMM-MP3Player] Playlist ended");
 								return;
 							}
 							self.current = -1;
@@ -154,55 +154,57 @@ Module.register("MMM-MP3Player",{
 					}
 					self.sendSocketNotification("LOADFILE", self.songs[self.current]);
 				};
-				console.log("Music Played");
+				console.log("[MMM-MP3Player] Music Played");
 				break;
 		}
 	},
 
 	notificationReceived: function(notification, payload){
 		var self = this;
-		switch(notification){
-			case "PLAY_MUSIC":
-				if (audioElement.paused){
-					audioElement.play();
-				}
-				else {
+		if (self.musicFound){
+			switch(notification){
+				case "PLAY_MUSIC":
+					if (audioElement.paused){
+						audioElement.play();
+					}
+					else {
+						self.sendSocketNotification("LOADFILE", self.songs[self.current]);
+					}
+					break;
+				case "STOP_MUSIC":
+					audioElement.pause();
+					break;
+				case "NEXT_TRACK":
+					if(!self.musicFound){
+						self.album_art.classList.toggle('active');
+						return;
+					}
+					if (self.config.random){
+						if (!arrPlayed.includes(false)){
+							arrPlayed.fill(false);
+						}
+						do {
+							ind = Math.floor(Math.random() * self.songs.length); // (self.current + 1) % self.songs.length;
+						} while (arrPlayed[ind] || ind == self.current); // ind == self.current: not to play one song twice - in the end of list and in the beginning of newly created list)
+						arrPlayed[ind] = true;
+						self.current = ind;
+					}
+					else {
+						if(self.current==(self.songs.length-1)){ // this assures the loop
+							self.current = -1;
+						}
+						self.current++;
+					}
 					self.sendSocketNotification("LOADFILE", self.songs[self.current]);
-				}
-				break;
-			case "STOP_MUSIC":
-				audioElement.pause();
-				break;
-			case "NEXT_TRACK":
-				if(!self.musicFound){
-					self.album_art.classList.toggle('active');
-					return;
-				}
-				if (self.config.random){
-					if (!arrPlayed.includes(false)){
-						arrPlayed.fill(false);
-					}
-					do {
-						ind = Math.floor(Math.random() * self.songs.length); // (self.current + 1) % self.songs.length;
-					} while (arrPlayed[ind] || ind == self.current); // ind == self.current: not to play one song twice - in the end of list and in the beginning of newly created list)
-					arrPlayed[ind] = true;
-					self.current = ind;
-				}
-				else {
-					if(self.current==(self.songs.length-1)){ // this assures the loop
-						self.current = -1;
-					}
-					self.current++;
-				}
-				self.sendSocketNotification("LOADFILE", self.songs[self.current]);
-				break;
-			case "PREVIOUS_TRACK":
-				if(self.current==0){ // this assures the loop
-						self.current = (self.songs.length);
-					}
-				self.current--;
-				self.sendSocketNotification("LOADFILE", self.songs[self.current]);
-				break;
+					break;
+				case "PREVIOUS_TRACK":
+					if(self.current==0){ // this assures the loop
+							self.current = (self.songs.length);
+						}
+					self.current--;
+					self.sendSocketNotification("LOADFILE", self.songs[self.current]);
+					break;
+			}
 		}
 	}
 });
