@@ -2,7 +2,7 @@
  * By asimhsidd
  *
  * Remade by Pavel Smelov.
- * Version 1.1.0 - 2020.09.04
+ * Version 1.2.0 - 2020.09.14
  * GPLv3 License
  */
 
