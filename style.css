@@ -33,8 +33,8 @@
   margin-bottom: 4px;
 }
 .player .info .name {
-  color: #999;
-  font-size: 13px;
+  color: #808080; /*#999*/
+  font-size: 16px; /*13px*/
   margin-bottom: 8px;
 }
 .player .info .progress-bar {
@@ -50,6 +50,28 @@
   bottom: 0;
   background-color: #666;
   transition: all 0.2s ease;
+}
+.player .album-art-found {
+  position: absolute;
+  left: -10px;
+  height: 80px;
+  width: 80px;
+  /* background-color:white; */
+  box-shadow: 0px 0px 20px 5px rgba(0, 0, 0, 0.2);
+  transform: scale(1.2);
+  transition: all 0.5s ease;
+}
+.player .album-art-found::before {
+  content: "";
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background-position: center;
+  background-repeat: no-repeat;
+  background-size: 80px;
+  background-image: var(--backgroundImage);
 }
 .player .album-art {
   position: absolute;

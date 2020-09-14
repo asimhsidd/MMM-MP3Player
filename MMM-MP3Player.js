@@ -34,6 +34,8 @@ Module.register("MMM-MP3Player",{
 		else { self.song.innerHTML = "AutoPlay Disabled"; }
 		if (self.config.random){ self.song.innerHTML = self.song.innerHTML + "<br />Random Enabled"; }
 		else { self.song.innerHTML = self.song.innerHTML + "<br />Random Disabled"; }
+		//if (self.config.loopList){ self.song.innerHTML = self.song.innerHTML + "<br />Loop Enabled"; }
+		//else { self.song.innerHTML = self.song.innerHTML + "<br />Loop Disabled"; }
 		//self.song.innerHTML = "Searching mp3...";
 		progress = document.createElement("div");
 		progress.className = "progress-bar";
@@ -78,6 +80,20 @@ Module.register("MMM-MP3Player",{
 				}
 				break;
 			case "Music_File": // this is called everytime a song is sent from the server
+				//console.log(payload[3]);
+				if (payload[3] == 'music.png') {
+					self.album_art.className = "album-art";
+					self.album_art.classList.add('active');
+				}
+				else {
+					self.album_art.classList.toggle('active');
+					self.album_art.className = "album-art-found";
+					var chngstyle = document.querySelector('.album-art-found').style;
+					chngstyle.setProperty("--backgroundImage", "url('" + payload[3] + "')");
+					//var mystr = window.getComputedStyle(document.querySelector('.album-art-found'), '::before').getPropertyValue('background-image');
+					//console.log(mystr);
+				}
+				
 				// create url of the raw data received and play it
 				audioElement=document.getElementById(self.identifier+"_player");
 				var binaryData = [];
@@ -97,7 +113,7 @@ Module.register("MMM-MP3Player",{
 				audioElement.play();
 				self.artist.innerHTML = payload[1][0];
 				self.song.innerHTML = payload[1][1];
-				self.album_art.classList.add('active');
+				//self.album_art.classList.add('active');
 				// progress bar (thanks to Michael Foley @ https://codepen.io/mdf/pen/ZWbvBv)
 				var timer;
 				var percent = 0;
@@ -203,6 +219,12 @@ Module.register("MMM-MP3Player",{
 						}
 					self.current--;
 					self.sendSocketNotification("LOADFILE", self.songs[self.current]);
+					break;
+				case "RANDOM_ON":
+					self.config.random = true;
+					break;
+				case "RANDOM_OFF":
+					self.config.random = false;
 					break;
 			}
 		}

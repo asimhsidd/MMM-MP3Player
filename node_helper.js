@@ -33,15 +33,32 @@ module.exports = NodeHelper.create({
 				//console.log('[MMM-MP3Player] trying to play next track');
 				if (fs.existsSync(payload)){
 					fs.readFile(payload, function(err, data) {
-						extension = path.basename(payload).split('.').pop();
+						extension = path.basename(payload).split('.').pop(); //extension = path.extname(payload); //returns ext with dot
+						var cover = '';
 						if (extension == "mp3") {
 							tags = ID3.read(data);
+							if (typeof tags.image != "undefined") {
+								/*var base64String = "";
+								for (var i = 0; i < tags.image.imageBuffer.length; i++) {
+									base64String += String.fromCharCode(tags.image.imageBuffer[i]);
+								}
+								cover = "data:image/" + tags.image.mime + ";base64," + Buffer.from(base64String).toString('base64'); */
+								cover = "data:image/" + tags.image.mime + ";base64," + tags.image.imageBuffer.toString('base64');
+							}
 							if (typeof tags.artist == "undefined" && typeof tags.title == "undefined"){ tags.title = path.basename(payload); }
 						}
 						else {
-							tags = {artist:"", title:path.basename(payload)};
+							tags = {artist:'', title:path.basename(payload)};
 						}
-						self.sendSocketNotification("Music_File",[data,[tags.artist,tags.title], extension]);
+						if (cover == '') {
+							if (fs.existsSync(path.join(path.dirname(payload),'cover.jpg'))){
+								cover = path.join('/', path.dirname(payload), 'cover.jpg');
+							}
+							else {
+								cover = "music.png";
+							}
+						}
+						self.sendSocketNotification("Music_File",[data,[tags.artist,tags.title], extension, cover]);
 					});
 				}
 				else {

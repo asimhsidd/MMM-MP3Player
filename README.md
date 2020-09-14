@@ -3,16 +3,19 @@
 ## About
 A [MagicMirror²](https://github.com/MichMich/MagicMirror/) module for playing music from folder. <br>
 This is the version of the [MMM-MP3Player module](https://github.com/asimhsidd/MMM-MP3Player) remade to my needs.
-
+Starting screen:
 ![picture](Capture1.png) <br>
-![picture](Capture2.JPG)
+If no album cover found:
+![picture](Capture2.JPG) <br>
+Album cover retrieved from ID3-Tags:
+![picture](Capture3.png)
 
 * supports .mp3, .flac (surprisingly for me, it can be played as 'audio/mpeg' object as well) and .wav music formats;
 * reads ID3 metadata (artist and song title) - if no data, the filename is displayed;
-* autoplay capability;
-* random order capability;
+* displays album cover. Player tries to retrieve the image from ID3-Tags, otherwise it searches file `cover.jpg` in the playing music file directory.
+* autoplay, random order, loop playlist capability;
 * current settings of 'autoPlay' and 'random' options are displayed while loading the module;
-* control through notifications (play, stop, next track, prev track);
+* control through notifications (play, stop, next track, prev track, turn random on/off);
 * module only supports rock music.
 
 ## Dependencies
