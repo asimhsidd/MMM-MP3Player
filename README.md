@@ -68,10 +68,12 @@ Beside the core modules, this module uses one dependency:
 ## Control with notifications
 
 The playback can be controlled from another module (e.g. [voicecontrol](https://github.com/alexyak/voicecontrol)) with notifications.
-To play track, pause playback, play next or previous track, following notifications should be send, respectively:
+To play track, pause playback, play next or previous track, turn random on/off, following notifications should be send, respectively:
 ```js
 this.sendNotification('PLAY_MUSIC', 'some_info');
 this.sendNotification('STOP_MUSIC', 'some_info');
 this.sendNotification('NEXT_TRACK', 'some_info');
 this.sendNotification('PREVIOUS_TRACK', 'some_info');
+this.sendNotification('RANDOM_ON', 'some_info');
+this.sendNotification('RANDOM_OFF', 'some_info');
 ```
