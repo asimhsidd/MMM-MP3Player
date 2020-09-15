@@ -19,7 +19,7 @@
   -moz-box-shadow: 0px 0px 117px -6px rgba(255,255,255,1);
   box-shadow: 0px 0px 117px -6px rgba(255,255,255,1);
   display: flex;
-  justify-content: flex-end;  
+  /*justify-content: flex-end;  */
 }
 .player .info {
   padding: 15px 0px 0px 90px;
